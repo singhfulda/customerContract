@@ -41,7 +41,6 @@ public class CustomerControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/customer/100"))
                 .andExpect(status().isNotFound());
-
     }
 
 }
