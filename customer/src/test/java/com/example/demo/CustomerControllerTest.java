@@ -34,4 +34,14 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("name").value("testCustomer"))
                 .andExpect(jsonPath("id").value(100));
     }
+
+    @Test
+    public void getCustomer_notFound() throws Exception {
+        given(customerService.getCustomerDetails(100L)).willThrow(new CustomerNotFoundException());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/customer/100"))
+                .andExpect(status().isNotFound());
+
+    }
+
 }
