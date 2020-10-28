@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.domain.Customer;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
