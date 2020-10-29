@@ -16,7 +16,7 @@ public class DatabaseConfiguration {
     @Value("${spring.datasource.driver-class-name: org.h2.Driver}")
     private String ORG_H_2_DRIVER;
     @Value("${spring.datasource.data-username: SA}")
-    private  String USERNAME;
+    private String USERNAME;
     @Value("${spring.datasource.data-password: }")
     private String PASSWORD;
 

@@ -25,7 +25,7 @@ public class IntegrationTest {
         //arrange
 
         //act
-        ResponseEntity<Customer> response =  restTemplate.getForEntity("/customer/100", Customer.class);
+        ResponseEntity<Customer> response = restTemplate.getForEntity("/customer/100", Customer.class);
 
         //assert Expected :200 OK
         //Actual   :404 NOT_FOUND
