@@ -28,7 +28,8 @@ public class DatabaseConfiguration {
         return liquibase;
     }
 
-    private DataSource dataSource() {
+    @Bean
+    public DataSource dataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName(ORG_H_2_DRIVER);
         dataSourceBuilder.url(JDBC_H_2_MEM_TEST);
