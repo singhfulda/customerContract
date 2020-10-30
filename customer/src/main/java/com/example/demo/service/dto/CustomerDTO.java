@@ -43,6 +43,12 @@ public class CustomerDTO implements Serializable {
         this.name = name;
     }
 
+    public CustomerDTO(Long id, String name, List<PoliceDTO> polices) {
+        this.id = id;
+        this.name = name;
+        this.polices = polices;
+    }
+
     public CustomerDTO() {
     }
 

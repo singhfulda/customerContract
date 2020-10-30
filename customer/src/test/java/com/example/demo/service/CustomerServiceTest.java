@@ -2,8 +2,10 @@ package com.example.demo.service;
 
 
 import com.example.demo.domain.Customer;
+import com.example.demo.domain.Police;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.service.dto.CustomerDTO;
+import com.example.demo.service.dto.PoliceDTO;
 import com.example.demo.service.mapper.CustomerMapper;
 import com.example.demo.web.rest.CustomerNotFoundException;
 import org.assertj.core.api.Assertions;
@@ -15,6 +17,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,13 +49,17 @@ public class CustomerServiceTest {
     @Test
     public void getCustomerDetails_returnsCustomerInfo() {
         Customer testCustomer = new Customer(100L, "testCustomer");
+        List<Police> polices = new ArrayList<>();
+        polices.add(new Police(100L, "police1", BigDecimal.TEN));
+        testCustomer.setPolices(polices);
         given(customerRepository.findById(any())).willReturn(Optional.of(testCustomer));
-        given(customerMapper.toDto(any())).willReturn(new CustomerDTO(testCustomer.getId(), testCustomer.getName()));
+        given(customerMapper.toDto(any())).willReturn(new CustomerDTO(testCustomer.getId(), testCustomer.getName(), Collections.singletonList(new PoliceDTO(100L, "police1", BigDecimal.TEN))));
 
         CustomerDTO customer = customerService.getCustomerDetails(100L);
 
         assertThat(customer.getId()).isEqualTo(100L);
         assertThat(customer.getName()).isEqualTo("testCustomer");
+        assertThat(customer.getPolices().size()).isEqualTo(1);
     }
 
     @Test(expected = CustomerNotFoundException.class)
@@ -62,6 +72,7 @@ public class CustomerServiceTest {
     @Test
     public void saveCustomerDetails_shouldSaveCustomerAndReturn() {
         Customer customer = new Customer(100L, "testCustomer");
+
 
         CustomerDTO customerSavedDTO = new CustomerDTO(100L, "testCustomer");
         given(customerMapper.toDto(any())).willReturn(customerSavedDTO);
@@ -80,7 +91,7 @@ public class CustomerServiceTest {
         Customer customer = new Customer(100L, "testCustomer");
         CustomerDTO customerDTO = new CustomerDTO(100L, "testCustomer");
 
-        CustomerDTO customerSaved = customerService.saveCustomerDetails(customerDTO);
+        customerService.saveCustomerDetails(customerDTO);
     }
 
     @Test(expected = CustomerDontExistsException.class)

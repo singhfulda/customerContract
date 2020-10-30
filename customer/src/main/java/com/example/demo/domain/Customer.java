@@ -2,6 +2,8 @@ package com.example.demo.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,6 +20,9 @@ public class Customer implements Serializable {
     @Column
     private String name;
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    private List<Police> polices = new ArrayList<>();
+
     public Customer(Long id, String name) {
         this.id = id;
         this.name = name;
@@ -25,6 +30,14 @@ public class Customer implements Serializable {
 
     public Customer() {
 
+    }
+
+    public List<Police> getPolices() {
+        return polices;
+    }
+
+    public void setPolices(List<Police> polices) {
+        this.polices = polices;
     }
 
     public String getName() {
@@ -48,6 +61,7 @@ public class Customer implements Serializable {
         return "Customer{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", polices=" + polices +
                 '}';
     }
 
