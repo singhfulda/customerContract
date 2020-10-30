@@ -1,0 +1,19 @@
+spring:
+  devtools:
+    restart:
+      enabled: false
+    livereload:
+      enabled: false
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://localhost:5432/customer
+    username: customer
+    password:
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+  jpa:
+    database-platform: io.github.jhipster.domain.util.FixedPostgreSQL10Dialect
+    show-sql: false
+  liquibase:
+    contexts: prod
