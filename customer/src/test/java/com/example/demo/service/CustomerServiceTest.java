@@ -69,6 +69,5 @@ public class CustomerServiceTest {
 
         Assertions.assertThat(customerSaved.getId()).isEqualTo(customer.getId());
         Assertions.assertThat(customerSaved.getName()).isEqualTo(customer.getName());
-
     }
 }

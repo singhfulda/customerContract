@@ -32,6 +32,13 @@ public class CustomerController {
                 .body(result);
     }
 
+    @PutMapping("/customer")
+    private ResponseEntity<CustomerDTO> updateCustomer(@RequestBody CustomerDTO customerDTO) throws URISyntaxException {
+        CustomerDTO result = customerService.saveCustomerDetails(customerDTO);
+        return ResponseEntity.ok()
+                .body(result);
+    }
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     private void customerNotFoundHandler(CustomerNotFoundException ex) {
