@@ -58,6 +58,7 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("name").value("testCustomer"))
                 .andExpect(jsonPath("id").value(100));
 
+
     }
 
 }

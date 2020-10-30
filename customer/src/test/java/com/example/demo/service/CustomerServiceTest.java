@@ -6,6 +6,7 @@ import com.example.demo.repository.CustomerRepository;
 import com.example.demo.service.dto.CustomerDTO;
 import com.example.demo.service.mapper.CustomerMapper;
 import com.example.demo.web.rest.CustomerNotFoundException;
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,4 +57,18 @@ public class CustomerServiceTest {
         customerService.getCustomerDetails(100L);
     }
 
+    @Test
+    public void saveCustomerDetails_shouldSaveCustomerAndReturn() {
+        Customer customer = new Customer(100L, "testCustomer");
+        given(customerRepository.findById(any())).willReturn(Optional.of(customer));
+
+        CustomerDTO customerDTO = new CustomerDTO(100L, "testCustomer");
+        given(customerMapper.toDto(any())).willReturn(customerDTO);
+
+        CustomerDTO customerSaved = customerService.saveCustomerDetails(customerDTO);
+
+        Assertions.assertThat(customerSaved.getId()).isEqualTo(customer.getId());
+        Assertions.assertThat(customerSaved.getName()).isEqualTo(customer.getName());
+
+    }
 }
