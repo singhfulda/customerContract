@@ -34,7 +34,7 @@ public class CustomerController {
 
     @PutMapping("/customer")
     private ResponseEntity<CustomerDTO> updateCustomer(@RequestBody CustomerDTO customerDTO) throws URISyntaxException {
-        CustomerDTO result = customerService.saveCustomerDetails(customerDTO);
+        CustomerDTO result = customerService.updateCustomerDetails(customerDTO);
         return ResponseEntity.ok()
                 .body(result);
     }
