@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 @RestController
 public class CustomerController {
 
@@ -20,6 +23,13 @@ public class CustomerController {
     @GetMapping("/customer/{id}")
     private ResponseEntity<CustomerDTO> getCustomer(@PathVariable("id") Long id) {
         return ResponseEntity.ok(customerService.getCustomerDetails(id));
+    }
+
+    @PostMapping("/customer")
+    private ResponseEntity<CustomerDTO> postCustomer(@RequestBody CustomerDTO customerDTO) throws URISyntaxException {
+        CustomerDTO result = customerService.saveCustomerDetails(customerDTO);
+        return ResponseEntity.created(new URI("/customer/" + customerDTO.getId()))
+                .body(result);
     }
 
     @ExceptionHandler

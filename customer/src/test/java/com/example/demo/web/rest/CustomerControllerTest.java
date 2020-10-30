@@ -1,5 +1,6 @@
 package com.example.demo.web.rest;
 
+import com.example.demo.TestUtil;
 import com.example.demo.service.CustomerService;
 import com.example.demo.service.dto.CustomerDTO;
 import org.junit.Test;
@@ -7,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -50,7 +52,8 @@ public class CustomerControllerTest {
         CustomerDTO testCustomer = new CustomerDTO(100L, "testCustomer");
         given(customerService.saveCustomerDetails(any())).willReturn(testCustomer);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/customer", testCustomer))
+        mockMvc.perform(MockMvcRequestBuilders.post("/customer")
+                .contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(testCustomer)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("name").value("testCustomer"))
                 .andExpect(jsonPath("id").value(100));
