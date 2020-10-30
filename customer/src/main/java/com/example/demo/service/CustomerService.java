@@ -38,4 +38,18 @@ public class CustomerService {
             throw new CustomerAlreadyExistsException();
         }
     }
+
+    public CustomerDTO updateCustomerDetails(CustomerDTO customerDTO) {
+        if (customerDTO.getId() == null) {
+            throw new CustomerDontExistsException();
+        } else {
+            if (customerRepository.existsById(customerDTO.getId())) {
+                Customer customer = customerMapper.toEntity(customerDTO);
+                customer = customerRepository.save(customer);
+                return customerMapper.toDto(customer);
+            } else {
+                throw new CustomerDontExistsException();
+            }
+        }
+    }
 }

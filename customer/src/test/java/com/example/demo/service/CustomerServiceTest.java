@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.lenient;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CustomerServiceTest {
@@ -52,7 +54,7 @@ public class CustomerServiceTest {
 
     @Test(expected = CustomerNotFoundException.class)
     public void getCustomerDetails_WhenCustomerNotFound() throws Exception {
-        given(customerRepository.findById(100L)).willReturn(Optional.ofNullable(null));
+        lenient().when(customerRepository.findById(100L)).thenReturn(Optional.ofNullable(null));
 
         customerService.getCustomerDetails(100L);
     }
@@ -60,10 +62,12 @@ public class CustomerServiceTest {
     @Test
     public void saveCustomerDetails_shouldSaveCustomerAndReturn() {
         Customer customer = new Customer(100L, "testCustomer");
-        given(customerRepository.findById(any())).willReturn(Optional.of(customer));
 
-        CustomerDTO customerDTO = new CustomerDTO(100L, "testCustomer");
-        given(customerMapper.toDto(any())).willReturn(customerDTO);
+        CustomerDTO customerSavedDTO = new CustomerDTO(100L, "testCustomer");
+        given(customerMapper.toDto(any())).willReturn(customerSavedDTO);
+
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setName("testCustomer");
 
         CustomerDTO customerSaved = customerService.saveCustomerDetails(customerDTO);
 
@@ -74,12 +78,29 @@ public class CustomerServiceTest {
     @Test(expected = CustomerAlreadyExistsException.class)
     public void saveCustomerDetailsWithIdPresent_shouldThrowException() {
         Customer customer = new Customer(100L, "testCustomer");
-        given(customerRepository.findById(any())).willReturn(Optional.of(customer));
-
         CustomerDTO customerDTO = new CustomerDTO(100L, "testCustomer");
-        given(customerMapper.toDto(any())).willReturn(customerDTO);
 
         CustomerDTO customerSaved = customerService.saveCustomerDetails(customerDTO);
+    }
+
+    @Test(expected = CustomerDontExistsException.class)
+    public void updateCustomerDetailsWithoutId_shouldThrowException() {
+        Customer customer = new Customer(100L, "testCustomer");
+
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setName("testCustomer");
+
+        CustomerDTO customerSaved = customerService.updateCustomerDetails(customerDTO);
+    }
+
+    @Test(expected = CustomerDontExistsException.class)
+    public void updateCustomerDetailsWithIdNotSavedInDatabase_shouldThrowException() {
+        Customer customer = new Customer(100L, "testCustomer");
+        Mockito.lenient().when(customerRepository.findById(100L)).thenReturn(Optional.of(customer));
+
+        CustomerDTO customerDTO = new CustomerDTO(100L, "testCustomer");
+
+        CustomerDTO customerSaved = customerService.updateCustomerDetails(customerDTO);
     }
 
 
