@@ -1,3 +1,15 @@
 spring:
   datasource:
     url: "jdbc:postgresql://localhost:5432/customer"
+  cloud:
+    stream:
+      default-binder: kafka
+      kafka:
+        binder:
+          brokers:
+            - localhost:9092
+      bindings:
+        input:
+          binder: kafka
+          destination: policen
+          group: customer-group-1
