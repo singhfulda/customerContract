@@ -5,6 +5,7 @@ import com.example.demo.service.CustomerAlreadyExistsException;
 import com.example.demo.service.CustomerDontExistsException;
 import com.example.demo.service.CustomerService;
 import com.example.demo.service.dto.CustomerDTO;
+import com.example.demo.service.dto.PoliceDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.math.BigDecimal;
+import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -97,6 +101,21 @@ public class CustomerControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/customer")
                 .contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(testCustomer)))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void getCustomerDetails_shouldReturnPolices() throws Exception {
+        CustomerDTO testCustomer = new CustomerDTO(100L, "testCustomer");
+        testCustomer.setPolices(Collections.singletonList(new PoliceDTO(100L, "testPolice", BigDecimal.TEN)));
+        given(customerService.getCustomerDetails(100L)).willReturn(testCustomer);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/customer/100"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("name").value("testCustomer"))
+                .andExpect(jsonPath("id").value(100))
+                .andExpect(jsonPath("polices").isNotEmpty())
+                .andExpect(jsonPath("$.polices[:1].id").value(100))
+                .andExpect(jsonPath("$.polices[:1].name").value("testPolice"));
     }
 
 }

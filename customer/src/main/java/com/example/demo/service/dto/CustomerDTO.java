@@ -2,11 +2,13 @@ package com.example.demo.service.dto;
 
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 public class CustomerDTO implements Serializable {
     private Long id;
     private String name;
+    private List<PoliceDTO> polices;
 
     public Long getId() {
         return id;
@@ -22,6 +24,18 @@ public class CustomerDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<PoliceDTO> getPolices() {
+        return polices;
+    }
+
+    public void setPolices(List<PoliceDTO> polices) {
+        this.polices = polices;
+    }
+
+    public void addPolice(PoliceDTO police) {
+        this.polices.add(police);
     }
 
     public CustomerDTO(Long id, String name) {
@@ -51,6 +65,7 @@ public class CustomerDTO implements Serializable {
         return "CustomerDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", polices=" + polices +
                 '}';
     }
 }
