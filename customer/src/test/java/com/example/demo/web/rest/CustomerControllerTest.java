@@ -2,6 +2,7 @@ package com.example.demo.web.rest;
 
 import com.example.demo.TestUtil;
 import com.example.demo.service.CustomerAlreadyExistsException;
+import com.example.demo.service.CustomerDontExistsException;
 import com.example.demo.service.CustomerService;
 import com.example.demo.service.dto.CustomerDTO;
 import org.junit.Test;
@@ -85,6 +86,17 @@ public class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("name").value("testCustomer"))
                 .andExpect(jsonPath("id").value(100));
+    }
+
+    @Test
+    public void putCustomer_ShouldNotUpdateWhenNoId() throws Exception {
+        CustomerDTO testCustomer = new CustomerDTO();
+        testCustomer.setName("testCustomer");
+        given(customerService.updateCustomerDetails(any())).willThrow(CustomerDontExistsException.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/customer")
+                .contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(testCustomer)))
+                .andExpect(status().isNotFound());
     }
 
 }
