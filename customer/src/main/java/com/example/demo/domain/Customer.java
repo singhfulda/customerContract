@@ -20,7 +20,7 @@ public class Customer implements Serializable {
     @Column
     private String name;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private List<Police> polices = new ArrayList<>();
 
     public Customer(Long id, String name) {

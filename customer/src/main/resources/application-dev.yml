@@ -18,9 +18,13 @@ spring:
     hikari:
       poolName: Hikari
       auto-commit: false
+    data-username: customer
+    data-password:
+    driver-class-name: org.h2.Driver
   jpa:
     show-sql: true
+  liquibase:
+    change-log: classpath:/config/liquibase/master.xml
 server:
   port: 8081
-
 debug: true

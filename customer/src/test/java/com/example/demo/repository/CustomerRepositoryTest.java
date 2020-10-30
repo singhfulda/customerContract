@@ -60,16 +60,8 @@ public class CustomerRepositoryTest {
 
         int sizeAfter = policeRepository.findAll().size();
         Assertions.assertThat(sizeAfter).isEqualTo(sizeBefore);
+        Assertions.assertThat(newCustomer.getName()).isEqualTo(testCustomer.getName());
 
-        Optional<Customer> customerOptional = customerRepository.findById(newCustomer.getId());
-        if (customerOptional.isPresent()) {
-            Customer customer = customerOptional.get();
-
-            Assertions.assertThat(customer.getId()).isEqualTo(newCustomer.getId());
-            Assertions.assertThat(customer.getName()).isEqualTo(newCustomer.getName());
-        } else {
-            fail();
-        }
     }
 
 }

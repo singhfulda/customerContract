@@ -11,13 +11,11 @@ import javax.sql.DataSource;
 @Configuration
 public class DatabaseConfiguration {
 
-    @Value("${spring.datasource.url: jdbc:h2:mem:test}")
-    private String JDBC_H_2_MEM_TEST;
-    @Value("${spring.datasource.driver-class-name: org.h2.Driver}")
-    private String ORG_H_2_DRIVER;
-    @Value("${spring.datasource.data-username: SA}")
+    @Value("${spring.datasource.url}")
+    private String JDBC_URL;
+    @Value("${spring.datasource.data-username}")
     private String USERNAME;
-    @Value("${spring.datasource.data-password: }")
+    @Value("${spring.datasource.data-password}")
     private String PASSWORD;
 
     @Bean
@@ -31,8 +29,7 @@ public class DatabaseConfiguration {
     @Bean
     public DataSource dataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.driverClassName(ORG_H_2_DRIVER);
-        dataSourceBuilder.url(JDBC_H_2_MEM_TEST);
+        dataSourceBuilder.url(JDBC_URL);
         dataSourceBuilder.username(USERNAME);
         dataSourceBuilder.password(PASSWORD);
         return dataSourceBuilder.build();

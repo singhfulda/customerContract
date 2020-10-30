@@ -31,9 +31,13 @@ public class CustomerService {
 
     public CustomerDTO saveCustomerDetails(CustomerDTO customerDTO) {
         if (customerDTO.getId() == null) {
+            if (customerDTO.getPolices().size() > 0) {
+                customerDTO.setPolices(null);
+            }
             Customer customer = customerMapper.toEntity(customerDTO);
             customer = customerRepository.save(customer);
             return customerMapper.toDto(customer);
+
         } else {
             throw new CustomerAlreadyExistsException();
         }

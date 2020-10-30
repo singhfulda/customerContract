@@ -86,6 +86,26 @@ public class CustomerServiceTest {
         Assertions.assertThat(customerSaved.getName()).isEqualTo(customer.getName());
     }
 
+    @Test
+    public void saveCustomerDetails_shouldSaveCustomerAndNotPolicies() {
+
+        CustomerDTO customerSavedDTO = new CustomerDTO(100L, "testCustomer");
+        given(customerMapper.toDto(any())).willReturn(customerSavedDTO);
+
+        PoliceDTO police = new PoliceDTO();
+        police.setName("police1");
+
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setName("testCustomer");
+        customerDTO.setPolices(Collections.singletonList(police));
+
+        CustomerDTO customerSaved = customerService.saveCustomerDetails(customerDTO);
+
+        Assertions.assertThat(customerSaved.getId()).isEqualTo(customerSavedDTO.getId());
+        Assertions.assertThat(customerSaved.getName()).isEqualTo(customerSavedDTO.getName());
+        assertThat(customerSaved.getPolices()).isNullOrEmpty();
+    }
+
     @Test(expected = CustomerAlreadyExistsException.class)
     public void saveCustomerDetailsWithIdPresent_shouldThrowException() {
         Customer customer = new Customer(100L, "testCustomer");
