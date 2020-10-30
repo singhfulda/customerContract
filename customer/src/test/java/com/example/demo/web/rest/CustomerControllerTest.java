@@ -61,4 +61,16 @@ public class CustomerControllerTest {
 
     }
 
+    @Test
+    public void putCustomer_ShouldUpdateAndReturnCustomer() throws Exception {
+        CustomerDTO testCustomer = new CustomerDTO(100L, "testCustomer");
+        given(customerService.saveCustomerDetails(any())).willReturn(testCustomer);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/customer")
+                .contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(testCustomer)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("name").value("testCustomer"))
+                .andExpect(jsonPath("id").value(100));
+    }
+
 }
