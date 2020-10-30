@@ -70,4 +70,17 @@ public class CustomerServiceTest {
         Assertions.assertThat(customerSaved.getId()).isEqualTo(customer.getId());
         Assertions.assertThat(customerSaved.getName()).isEqualTo(customer.getName());
     }
+
+    @Test(expected = CustomerAlreadyExistsException.class)
+    public void saveCustomerDetailsWithIdPresent_shouldThrowException() {
+        Customer customer = new Customer(100L, "testCustomer");
+        given(customerRepository.findById(any())).willReturn(Optional.of(customer));
+
+        CustomerDTO customerDTO = new CustomerDTO(100L, "testCustomer");
+        given(customerMapper.toDto(any())).willReturn(customerDTO);
+
+        CustomerDTO customerSaved = customerService.saveCustomerDetails(customerDTO);
+    }
+
+
 }

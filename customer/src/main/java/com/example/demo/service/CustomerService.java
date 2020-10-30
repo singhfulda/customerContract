@@ -30,8 +30,12 @@ public class CustomerService {
     }
 
     public CustomerDTO saveCustomerDetails(CustomerDTO customerDTO) {
-        Customer customer = customerMapper.toEntity(customerDTO);
-        customer = customerRepository.save(customer);
-        return customerMapper.toDto(customer);
+        if (customerDTO.getId() == null) {
+            Customer customer = customerMapper.toEntity(customerDTO);
+            customer = customerRepository.save(customer);
+            return customerMapper.toDto(customer);
+        } else {
+            throw new CustomerAlreadyExistsException();
+        }
     }
 }

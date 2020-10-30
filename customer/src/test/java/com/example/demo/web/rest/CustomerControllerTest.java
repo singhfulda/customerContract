@@ -1,6 +1,7 @@
 package com.example.demo.web.rest;
 
 import com.example.demo.TestUtil;
+import com.example.demo.service.CustomerAlreadyExistsException;
 import com.example.demo.service.CustomerService;
 import com.example.demo.service.dto.CustomerDTO;
 import org.junit.Test;
@@ -49,17 +50,30 @@ public class CustomerControllerTest {
 
     @Test
     public void postCustomer_ShouldCreateAndReturnCustomer() throws Exception {
-        CustomerDTO testCustomer = new CustomerDTO(100L, "testCustomer");
+        CustomerDTO testCustomer = new CustomerDTO();
+        testCustomer.setName("testCustomer");
         given(customerService.saveCustomerDetails(any())).willReturn(testCustomer);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/customer")
                 .contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(testCustomer)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("name").value("testCustomer"))
-                .andExpect(jsonPath("id").value(100));
+                .andExpect(jsonPath("name").value("testCustomer"));
 
 
     }
+
+    @Test
+    public void postCustomerWithId_ShouldNotSaveCustomer() throws Exception {
+        CustomerDTO testCustomer = new CustomerDTO(100L, "testCustomer");
+        given(customerService.saveCustomerDetails(any())).willThrow(CustomerAlreadyExistsException.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/customer")
+                .contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(testCustomer)))
+                .andExpect(status().isBadRequest());
+
+
+    }
+
 
     @Test
     public void putCustomer_ShouldUpdateAndReturnCustomer() throws Exception {
