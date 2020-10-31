@@ -38,7 +38,7 @@ paths:
       responses:
         default:
           description: successful operation
-          content: {}
+          content: { }
       x-codegen-request-body-name: body
   /police/{id}:
     get:
@@ -52,7 +52,8 @@ paths:
           description: 'The name that needs to be fetched. Use police1 for testing. '
           required: true
           schema:
-            type: number
+            type: integer
+            format: int64
       responses:
         200:
           description: successful operation
@@ -62,7 +63,7 @@ paths:
                 $ref: '#/components/schemas/PoliceDTO'
         404:
           description: Police not found
-          content: {}
+          content: { }
     put:
       tags:
         - police
@@ -75,7 +76,8 @@ paths:
           description: name that need to be updated
           required: true
           schema:
-            type: number
+            type: integer
+            format: int64
       requestBody:
         description: Updated police object
         content:
@@ -92,10 +94,10 @@ paths:
                 $ref: '#/components/schemas/PoliceDTO'
         400:
           description: Invalid police supplied
-          content: {}
+          content: { }
         404:
           description: police not found
-          content: {}
+          content: { }
       x-codegen-request-body-name: body
     delete:
       tags:
@@ -109,17 +111,18 @@ paths:
           description: The name that needs to be deleted
           required: true
           schema:
-            type: number
+            type: integer
+            format: int64
       responses:
         201:
           description: operation successful
-          content: {}
+          content: { }
         400:
           description: Invalid id supplied
-          content: {}
+          content: { }
         404:
           description: police not found
-          content: {}
+          content: { }
 components:
   schemas:
     PoliceDTO:
