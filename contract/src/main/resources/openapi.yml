@@ -33,7 +33,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/Police'
+              $ref: '#/components/schemas/PoliceDTO'
         required: true
       responses:
         default:
@@ -59,7 +59,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Police'
+                $ref: '#/components/schemas/PoliceDTO'
         404:
           description: Police not found
           content: {}
@@ -81,7 +81,7 @@ paths:
         content:
           '*/*':
             schema:
-              $ref: '#/components/schemas/Police'
+              $ref: '#/components/schemas/PoliceDTO'
         required: true
       responses:
         200:
@@ -89,7 +89,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Police'
+                $ref: '#/components/schemas/PoliceDTO'
         400:
           description: Invalid police supplied
           content: {}
@@ -122,7 +122,7 @@ paths:
           content: {}
 components:
   schemas:
-    Police:
+    PoliceDTO:
       type: object
       properties:
         id:

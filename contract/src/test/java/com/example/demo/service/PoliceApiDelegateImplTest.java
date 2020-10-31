@@ -1,33 +1,22 @@
 package com.example.demo.service;
 
 import com.example.demo.TestUtil;
-import com.example.demo.model.Police;
-import org.assertj.core.api.Assertions;
+import com.example.demo.model.PoliceDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URI;
-import java.net.URISyntaxException;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class PoliceApiDelegateImplTest {
-
-    @Autowired
-    private TestRestTemplate restTemplate;
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,7 +28,7 @@ class PoliceApiDelegateImplTest {
     @Test
     @Order(1)
     void createPolice() throws Exception {
-        Police police = new Police();
+        PoliceDTO police = new PoliceDTO();
         police.setName("testPolicy");
         police.setFaceValue(BigDecimal.TEN);
         police.setCustomerId(1L);
@@ -55,7 +44,7 @@ class PoliceApiDelegateImplTest {
     void getRequest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/police/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("name" ).value("testPolicy"));
+                .andExpect(jsonPath("name").value("testPolicy"));
     }
 
     @Test
@@ -63,13 +52,13 @@ class PoliceApiDelegateImplTest {
     void getPoliceById() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/police/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("name" ).value("testPolicy"));
+                .andExpect(jsonPath("name").value("testPolicy"));
     }
 
     @Test
     @Order(4)
     void updatePolice() throws Exception {
-        Police police = new Police();
+        PoliceDTO police = new PoliceDTO();
         police.setName("testPolicy");
         police.setFaceValue(BigDecimal.TEN);
         police.setCustomerId(1L);
