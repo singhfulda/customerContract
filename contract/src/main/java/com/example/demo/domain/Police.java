@@ -7,7 +7,8 @@ import java.math.BigDecimal;
 public class Police {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "police_generator")
+    @SequenceGenerator(name = "police_generator", sequenceName = "police_seq", allocationSize = 50)
     private Long id;
 
     @Column(nullable = false)
@@ -44,12 +45,12 @@ public class Police {
         this.customerId = customerId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

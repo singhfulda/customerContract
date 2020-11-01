@@ -36,6 +36,12 @@ paths:
               $ref: '#/components/schemas/PoliceDTO'
         required: true
       responses:
+        201:
+          description: Police created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PoliceDTO'
         default:
           description: successful operation
           content: { }

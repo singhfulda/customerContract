@@ -1,12 +1,20 @@
 databaseChangeLog:
   - changeSet:
+      id: create-police-seq
+      author: harjeet
+      changes:
+        - createSequence:
+            sequenceName: police_seq
+            startValue: 1050
+            incrementBy: 50
+  - changeSet:
       id: create-table-policen
       author: harjeet
       preConditions:
         - onFail: MARK_RAN
           not:
             tableExists:
-              tableName: policen
+              tableName: police
       changes:
         - createTable:
             columns:
@@ -28,4 +36,7 @@ databaseChangeLog:
                     nullable: false
                   name: face_value
                   type: BIGINT
-            tableName: policen
+              - column:
+                  name: customer_id
+                  type: BIGINT
+            tableName: police

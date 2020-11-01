@@ -4,7 +4,7 @@ import com.example.demo.domain.Police;
 import com.example.demo.model.PoliceDTO;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface PoliceMapper {
 
     PoliceDTO toDto(Police police);
