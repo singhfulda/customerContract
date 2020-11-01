@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.NativeWebRequest;
 
+import java.util.concurrent.ExecutionException;
+
 @Service
 public class PoliceApiDelegateImpl implements PoliceApiDelegate {
 
@@ -29,7 +31,14 @@ public class PoliceApiDelegateImpl implements PoliceApiDelegate {
     @Override
     public ResponseEntity<PoliceDTO> createPolice(PoliceDTO body) {
         log.info("Request to create police: " + body);
-        PoliceDTO policeUpdated = policeService.createPolice(body);
+        PoliceDTO policeUpdated = null;
+        try {
+            policeUpdated = policeService.createPolice(body);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(policeUpdated);
     }
 
@@ -49,6 +58,13 @@ public class PoliceApiDelegateImpl implements PoliceApiDelegate {
     @Override
     public ResponseEntity<PoliceDTO> updatePolice(Long id, PoliceDTO policeDTO) {
         log.info("Request to update police: " + policeDTO);
-        return ResponseEntity.ok(policeService.updatePolice(policeDTO));
+        try {
+            return ResponseEntity.ok(policeService.updatePolice(policeDTO));
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -1,6 +1,4 @@
 spring:
-  datasource:
-    url: "jdbc:postgresql://localhost:5432/customer"
   cloud:
     stream:
       default-binder: kafka
@@ -9,12 +7,7 @@ spring:
           brokers:
             - localhost:9092
       bindings:
-        input:
+        output:
           binder: kafka
           destination: policensync
-          group: customer-group-1
           content-Type: application/json
-  kafka:
-    consumer:
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-

@@ -40,3 +40,4 @@ databaseChangeLog:
                   name: customer_id
                   type: BIGINT
             tableName: police
+
